@@ -1,6 +1,7 @@
 package br.com.jorgevmachado.springjava.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @JsonFormat(pattern="dd/MM/yyyy HH:mm")
     private Date instante;
 
@@ -45,6 +47,22 @@ public class Pedido implements Serializable {
         this.instante = instante;
         this.cliente = cliente;
         this.enderecoDeEntrega = enderecoDeEntrega;
+    }
+
+    public double getValorTotal() {
+        double soma = 0.0;
+        for (ItemPedido itemPedido : itens) {
+            soma = soma + itemPedido.getSubTotal();
+        }
+        return soma;
+    }
+
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
     }
 
     @Override
