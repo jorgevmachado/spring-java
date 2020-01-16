@@ -1,5 +1,6 @@
 package br.com.jorgevmachado.springjava.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ public class ItemPedidoPK implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="pedido_id")
     private Pedido pedido;

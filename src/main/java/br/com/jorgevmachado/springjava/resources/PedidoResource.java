@@ -17,26 +17,26 @@ public class PedidoResource {
     @Autowired
     private PedidoService service;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String index(){
         return "REST está funcionando!";
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<Pedido> show(@PathVariable Integer id) {
+    @GetMapping(value = "/{id}")
+    public Pedido show(@PathVariable Integer id) {
         Pedido obj =  service.find(id);
-        return ResponseEntity.ok().body(obj);
+        return obj;
     }
 
-    @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) {
+    @PostMapping
+    public URI insert(@Valid @RequestBody Pedido obj) {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(obj.getId())
                 .toUri();
-        return ResponseEntity.created(uri).build();
+        return uri;
     }
 
 }
